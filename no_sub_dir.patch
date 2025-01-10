@@ -1,0 +1,135 @@
+From a83b94170a1d058ed0338acad70678047374eee3 Mon Sep 17 00:00:00 2001
+From: rlfontenot <120513610+rlfontenot@users.noreply.github.com>
+Date: Tue, 26 Nov 2024 11:53:59 -0600
+Subject: [PATCH] RLF[28]: added configuration option --no-sub-dir  (#29)
+
+This issue/pull request added the --no-sub-dir feature to the configure
+step. The --no-sub-dir feature will disable building
+${LOCI_BASE}/Loci-(build info), but instead only use the
+--prefix=<install_directory> specified at configure time. The
+post-appending of the Loci-(build_info) can be problematic for users on
+HPC systems that use module files, as, for example, Loci/CHEM or
+Loci/GGFS require ${LOCI_BASE} which is pulled from
+--prefix+Loci(build_info). Not specifying --no-sub-dir will keep the
+default behavior of the configure/build process. This issue replaces
+https://github.com/rlfontenot/loci/issues/25 (due to git issue naming
+requirements) and is tied to the makefile issue
+https://github.com/rlfontenot/loci/issues/20.
+
+Install.bash updated to support input from configure.
+install.txt updated to let the user know the option exists in the build
+portion of the guide.
+Loci.conf updated to change the install paths.
+
+Co-authored-by: Raymond L. Fontenot <raymond.fontenot@RLF-RHEL-P3660.cfdrc.com>
+---
+ configure          |  7 +++++++
+ install.txt        | 13 +++++++++++--
+ src/Install.bash   |  8 +++++++-
+ src/conf/Loci.conf | 15 +++++++++------
+ 4 files changed, 34 insertions(+), 9 deletions(-)
+
+diff --git a/configure b/configure
+index 43b36da2..deba770c 100755
+--- a/configure
++++ b/configure
+@@ -108,0 +108,1 @@ MPI_BASE=/notselected
++NO_SUB_DIR=0
+@@ -245,6 +245,9 @@ ;;
+	--nompi)
+	   NO_MPI=1
+	   ;;
++	--no-sub-dir)
++		NO_SUB_DIR=1
++		;;
+ 	 --help)
+ 	    echo "configure usage:"
+ 	    echo "./configure <options>"
+@@ -292,6 +296,7 @@ while [ $# -ne 0 ]; do
+ 	    echo "  --no-metis                      : tell configure not to install or use metis"
+ 	    echo "  --compiler <compiler name>      : tell configure what compiler to use"
+ 	    echo "  --obj-dir <OBJDIR name>         : tell configure where to put object files"
++	    echo "  --no-sub-dir                    : tell configure to not add the build information after the prefix defintion"
+ 	    echo "  --help                          : output this help information"
+ 	    exit -1
+ 	    ;;
+@@ -404,6 +409,8 @@ echo Setup for compiler \"$COMPILER\".
+ echo INSTALL_DIR=$PREFIX > sys.conf
+ echo >> sys.conf
+
++# put into
++echo NO_SUB_DIR=$NO_SUB_DIR >> sys.conf
+ #setup MPI
+
+ HAS_MPI=1
+diff --git a/install.txt b/install.txt
+index bf919921..863e3030 100644
+--- a/install.txt
++++ b/install.txt
+@@ -45,8 +45,17 @@ following commands:
+ make
+ make install
+
+-This will compile and install Loci in the directory
+-<install_directory>/Loci-*.  If there are any problems with compilation you
++This will compile and install Loci in the directory (and set LOCI_BASE to)
++<install_directory>/Loci-*.
++
++If you do not want to automatically append your <install_directory> with the
++Loci build information, then at the configure step specify:
++
++./configure --prefix=<install_directory> --no-sub-dir
++
++which will make LOCI_BASE = <install_directory>.
++
++If there are any problems with compilation you
+ may need to edit the files OBJ/sys.conf (system configuration file) or
+ OBJ/comp.conf (compiler configuration file) to accomodate variations
+ on your system that the configure script did not detect.
+diff --git a/src/Install.bash b/src/Install.bash
+index 996e8c54..c3a7a5e6 100644
+--- a/src/Install.bash
++++ b/src/Install.bash
+@@ -20,7 +20,13 @@
+ #
+ ###############################################################################
+
+-INSTALL_PATH=$INSTALL_DIR/$LOCI_INSTALL_DIR
++# Install with or without the Loci build information appended if set
++# at configure time
++if [ -z "${LOCI_INSTALL_DIR}" ]; then
++    INSTALL_PATH=$INSTALL_DIR
++else
++    INSTALL_PATH=$INSTALL_DIR/$LOCI_INSTALL_DIR
++fi
+
+ echo INSTALL_PATH = $INSTALL_PATH
+
+diff --git a/src/conf/Loci.conf b/src/conf/Loci.conf
+index 57f5bd15..92b4009b 100644
+--- a/src/conf/Loci.conf
++++ b/src/conf/Loci.conf
+@@ -7,13 +7,18 @@ COMP_NAME=$(shell echo $(CXX) | sed -e 's/ .*//' -e 's/.*\///')
+ LOCI_REV1 = $(shell echo "$(LOCI_REV)"| sed -e 's/.*: *//' -e 's/ *\$$//' -e 's/ //g')
+ LOCI_REVISION_NAME = $(shell if [ -n "$(LOCI_REV1)" ]; then echo "$(LOCI_REV1)"; else date +%m.%d.%y;fi)
+-LOCI_INSTALL_DIR = Loci-$(SYS_TYPE)-$(ARCH_TYPE)-$(COMP_NAME)-$(LOCI_REVISION_NAME)
+-
+-LOCI_RPATH = $(INSTALL_DIR)/$(LOCI_INSTALL_DIR)/lib
+-#LOCI_RPATH = $(LOCI_BASE)/lib
+-
+
++# Modify the Loci installation path based on the configure input of --no-sub-dir
+ include $(LOCI_BASE)/sys.conf
+ include $(LOCI_BASE)/comp.conf
++
++ifeq ($(NO_SUB_DIR),0)
++LOCI_INSTALL_DIR = Loci-$(SYS_TYPE)-$(ARCH_TYPE)-$(COMP_NAME)-$(LOCI_REVISION_NAME)
++LOCI_RPATH = $(INSTALL_DIR)/$(LOCI_INSTALL_DIR)/lib
++else
++LOCI_INSTALL_DIR=
++LOCI_RPATH = $(INSTALL_DIR)/lib
++endif
++
+ export LD_LIBRARY_PATH:=$(LOCI_BASE)/lib:$(LD_LIBRARY_PATH)
+ export DYLD_LIBRARY_PATH:=$(LOCI_BASE)/lib:$(DYLD_LIBRARY_PATH)
+
