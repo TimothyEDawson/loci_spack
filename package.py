@@ -10,9 +10,9 @@ class Loci(AutotoolsPackage):
     the task of constructing complex simulation software.
     """
 
-    homepage = "https://github.com/rlfontenot/loci"
-    url = "https://github.com/rlfontenot/loci/archive/refs/tags/v4.1.b3.tar.gz"
-    git = "https://github.com/rlfontenot/loci.git"
+    homepage = "https://github.com/EdwardALuke/loci"
+    url = "https://github.com/EdwardALuke/loci/archive/refs/tags/v4.1.b3.tar.gz"
+    git = "https://github.com/EdwardALuke/loci.git"
 
     maintainers("EdwardALuke", "rlfontenot", "TimothyEDawson")
 
@@ -63,7 +63,7 @@ class Loci(AutotoolsPackage):
 
     # Configure script patch to fix issue with cmake-built HDF5:
     patch(
-        "https://github.com/rlfontenot/loci/commit/5f8408879a35c3f62bd91c9889511b9415c43fbf.patch",
+        "https://github.com/EdwardALuke/loci/commit/5f8408879a35c3f62bd91c9889511b9415c43fbf.patch",
         sha256="aebc95812e3285a99d172adbc71534fd35822063902348e60beddb52e20c92a9",
         when="@:4.1.b3",
     )
