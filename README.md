@@ -1,5 +1,5 @@
 # Spack Package for Loci
-An experimental spack package for the Loci framework: https://github.com/rlfontenot/loci
+An experimental spack package for the Loci framework: https://github.com/EdwardALuke/loci
 
 ## Setup:
 
