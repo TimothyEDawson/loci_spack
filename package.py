@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack.package import *
+from spack.package import AutotoolsPackage, maintainers, license, version, depends_on, variant, patch
 
 
 class Loci(AutotoolsPackage):
@@ -19,6 +19,8 @@ class Loci(AutotoolsPackage):
     license("LGPL-3.0-only", checked_by="TimothyEDawson")
 
     version("develop", branch="dev")
+    version("stable", commit="751f8b365513ff1f2c5df3d3227f77c285c6f9e7")
+    version("cfdrc", commit="d60697b69af801cd33066fa2bfbf0fc3af806d6e")
     version("4.1.b3", sha256="e49ceaf20dcc2d4ddf4f189644403ee3e63731ca92758902d48cb3a0a8636193")
     version("4.1.b2", sha256="4c1e98b30f96d0fb3d6d9cda29961e9b741d68373afe237fc0f2758260b9381c")
     version("4.1.b1", sha256="e56f525755600cf27de42c90ef97388f717da720674d6bf361ee9e612e519cd6")
@@ -39,13 +41,13 @@ class Loci(AutotoolsPackage):
     depends_on("hdf5")
     depends_on("hdf5 +mpi", when="+mpi")
 
-    depends_on("parmetis", when="@:4.1.b2")
+    depends_on("parmetis", when="@:4.1.b2,cfdrc")
 
     # Optional dependencies
     variant(
         "partitioner", default="parmetis", description="Mesh partitioning library.",
         values=("scotch", "parmetis"), multi=False,
-        when="@4.1.b3:+mpi",
+        when="@4.1.b3: +mpi",
     )
 
     variant("petsc", default=True, description="Enable PETSc linear solver.")
@@ -75,5 +77,16 @@ class Loci(AutotoolsPackage):
         if not self.spec.satisfies("+mpi"):
             args.append("--nompi")
 
+        if self.spec.satisfies("+cgns"):
+            args.append(f"--with-cgns={self.spec['cgns'].prefix}")
+
         return args
 
+    def setup_run_environment(self, env):
+        env.set("LOCI_BASE", self.prefix)
+
+    def setup_dependent_build_environment(self, env, dependent_spec):
+        env.set("LOCI_BASE", self.prefix)
+
+    def setup_dependent_run_environment(self, env, dependent_spec):
+        env.set("LOCI_BASE", self.prefix)
