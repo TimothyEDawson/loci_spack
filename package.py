@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack.package import AutotoolsPackage, maintainers, license, version, depends_on, variant, patch
+from spack_repo.builtin.build_systems.autotools import AutotoolsPackage
+from spack.package import maintainers, license, version, depends_on, variant, patch
 
 
 class Loci(AutotoolsPackage):
