@@ -1,7 +1,5 @@
 An experimental spack package for the Loci framework: https://github.com/EdwardALuke/loci
 
-[TOC]
-
 # Setup:
 First [obtain Spack](https://spack.readthedocs.io/en/v0.21.3/getting_started.html#installation)
 and source the activation script:
