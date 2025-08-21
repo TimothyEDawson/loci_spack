@@ -42,19 +42,18 @@ class Loci(AutotoolsPackage):
     depends_on("hdf5")
     depends_on("hdf5 +mpi", when="+mpi")
 
-    depends_on("parmetis", when="@:4.1.b3,cfdrc,dev +mpi")
-    depends_on("scotch", when="@dev +mpi")
-
     # Optional dependencies
     variant(
         "partitioner", default="parmetis", description="Mesh partitioning library.",
         values=("scotch", "parmetis"), multi=False,
-        when="@4.1.b3,dev +mpi",
+        when="@:4.1.b3,dev +mpi",
     )
+    depends_on("parmetis", when="parititioner=parmetis")
+    depends_on("scotch+metis~threads", when="paritioner=scotch")
 
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
     variant("petsc", default=True, description="Enable PETSc linear solver.",)
-    depends_on("petsc@3.23.3~superlu-dist", when="+petsc")
+    depends_on("petsc@:3.23.3~superlu-dist", when="+petsc")
 
     variant("cgns", default=False, description="Enable CGNS support.")
     depends_on("cgns", when="+cgns")
