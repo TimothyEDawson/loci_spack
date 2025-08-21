@@ -48,8 +48,8 @@ class Loci(AutotoolsPackage):
         values=("scotch", "parmetis"), multi=False,
         when="@:4.1.b3,dev +mpi",
     )
-    depends_on("parmetis", when="parititioner=parmetis")
-    depends_on("scotch+metis~threads", when="paritioner=scotch")
+    depends_on("parmetis", when="partitioner=parmetis")
+    depends_on("scotch+metis~threads", when="partitioner=scotch")
 
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
     variant("petsc", default=True, description="Enable PETSc linear solver.",)
