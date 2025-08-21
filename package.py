@@ -42,13 +42,14 @@ class Loci(AutotoolsPackage):
     depends_on("hdf5")
     depends_on("hdf5 +mpi", when="+mpi")
 
-    depends_on("parmetis", when="@:4.1.b2,cfdrc")
+    depends_on("parmetis", when="@:4.1.b2,cfdrc,dev")
+    depends_on("scotch", when="dev")
 
     # Optional dependencies
     variant(
         "partitioner", default="parmetis", description="Mesh partitioning library.",
         values=("scotch", "parmetis"), multi=False,
-        when="@4.1.b3: +mpi",
+        when="@4.1.b3,dev +mpi",
     )
 
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
