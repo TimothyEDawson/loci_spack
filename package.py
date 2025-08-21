@@ -44,6 +44,10 @@ class Loci(AutotoolsPackage):
 
     depends_on("parmetis", when="@:4.1.b2,cfdrc")
 
+    depends_on("scotch", when="+scotch")
+
+    depends_on("scotch", when="+mpi~parmetis")
+
     # Optional dependencies
     variant(
         "partitioner", default="parmetis", description="Mesh partitioning library.",
