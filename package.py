@@ -82,7 +82,7 @@ class Loci(AutotoolsPackage):
         if self.spec.satisfies("+cgns"):
             args.append(f"--with-cgns={self.spec['cgns'].prefix}")
 
-        if self.spec.satisfies("partioner=scotch"):
+        if self.spec.satisfies("partitioner=scotch"):
             args.append(f"--with-scotch={self.spec['scotch'.prefix]}")
         return args
 
