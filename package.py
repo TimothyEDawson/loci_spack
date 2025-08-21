@@ -45,11 +45,11 @@ class Loci(AutotoolsPackage):
     # Optional dependencies
     variant(
         "partitioner", default="parmetis", description="Mesh partitioning library.",
-        values=("scotch", "parmetis"), multi=False,
+        values=("scotch", "parmetis", "space-filling"), multi=False,
         when="+mpi",
     )
-    depends_on("parmetis", when="@:4.1.b3,develop partitioner=parmetis")
-    depends_on("scotch+metis~threads", when="@develop partitioner=scotch")
+    depends_on("parmetis", when="@:4.1.b3,develop +mpi partitioner=parmetis")
+    depends_on("scotch+metis~threads", when="@develop +mpi partitioner=scotch")
 
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
     variant("petsc", default=True, description="Enable PETSc linear solver.",)
@@ -83,7 +83,7 @@ class Loci(AutotoolsPackage):
             args.append(f"--with-cgns={self.spec['cgns'].prefix}")
 
         if self.spec.satisfies("partitioner=scotch"):
-            args.append(f"--with-scotch={self.spec['scotch'.prefix]}")
+            args.append(f"--with-scotch={self.spec['scotch'].prefix}")
         return args
 
     def setup_run_environment(self, env):
