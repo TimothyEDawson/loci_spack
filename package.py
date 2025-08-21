@@ -42,8 +42,8 @@ class Loci(AutotoolsPackage):
     depends_on("hdf5")
     depends_on("hdf5 +mpi", when="+mpi")
 
-    depends_on("parmetis", when="@:4.1.b2,cfdrc,dev")
-    depends_on("scotch", when="dev")
+    depends_on("parmetis", when="+mpi @:4.1.b3,cfdrc,dev")
+    depends_on("scotch", when="+mpi dev")
 
     # Optional dependencies
     variant(
