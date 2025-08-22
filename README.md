@@ -18,17 +18,21 @@ spack compiler find
 spack external find
 ```
 
-Next, [create a local spack repository](https://spack.readthedocs.io/en/latest/repositories.html):
+Next, add this as a [git-based repository](https://spack.readthedocs.io/en/latest/repositories.html#git-based-repositories)
+to your `repos.yaml` file:
 
-```bash
-spack repo create ~/. personal
-spack repo add ~/spack_repo/personal
+```yaml
+# ~/.spack/repos.yaml
+repos:
+  loci_repo:
+    git: https://github.com/TimothyEDawson/loci_spack.git
+    branch: automatic-cloning
 ```
 
-Finally, clone this repository into the `packages` subdirectory:
+Finally, pull it down:
 
 ```bash
-git clone https://github.com/TimothyEDawson/loci_spack.git ~/spack_repo/personal/packages/loci
+spack repo update loci_repo
 ```
 
 And you're good to go! You can verify that Spack is able to find the package with
@@ -132,11 +136,10 @@ You can now install the requested packages via `spack install`. If you did not
 manually concretize, it will automatically concretize when you install.
 
 # Updating the Spack repo:
-As this repository is updated, you only need to pull the latest version using Git:
+As this repository is updated, you can simply run the repo update command again:
 
 ```bash
-cd ~/spack_repo/personal/packages/loci
-git pull
+spack repo update loci_repo
 ```
 
 # Developing
