@@ -10,6 +10,7 @@ class Loci(AutotoolsPackage):
     """Loci is a sophisticated auto-parallelizing framework which simplifies
     the task of constructing complex simulation software.
     """
+    install_targets = ["install_minimal"]
 
     homepage = "https://github.com/EdwardALuke/loci"
     url = "https://github.com/EdwardALuke/loci/archive/refs/tags/v4.1.b3.tar.gz"

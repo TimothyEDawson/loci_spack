@@ -34,24 +34,6 @@ git clone https://github.com/TimothyEDawson/loci_spack.git ~/spack_repo/personal
 And you're good to go! You can verify that Spack is able to find the package with
 `spack info loci`.
 
-## Note for LaTeX:
-By default, Loci will try to build and install the documentation, which
-requires a working installation of LaTeX. Recent versions of Loci have added a
-new installation target which skips this, and it's recommended to use this when
-installing on HPC systems. To do so, edit the
-`~/spack_repo/personal/packages/loci/package.py` file to add the following line:
-
-```python
-class Loci(AutotoolsPackage):
-    """Loci is a sophisticated auto-parallelizing framework which simplifies
-    the task of constructing complex simulation software.
-    """
-    install_targets = ["install_minimal"]
-    ...
-```
-
-Eventually I plan to make this the default mode of installation.
-
 ## Note for Python:
 I generally recommend installing your own Python version so that Spack will
 use that instead of the older system-installed version, making sure it's on
