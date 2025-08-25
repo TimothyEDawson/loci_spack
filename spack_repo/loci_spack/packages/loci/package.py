@@ -32,6 +32,9 @@ class Loci(AutotoolsPackage):
     version("4.0.8", sha256="b05749097994e7546a8cf9eb077125240bd1a582c055a328f48655c3d55f2f5d")
     version("4.0.7", sha256="1cdca827ff1980714989fd35a34f0aa4b3d3f1fd8668acb5e4f9b27cd2d3c15b")
 
+    # Enable debug build
+    variant("debug", default=False, description="Enable debugging options (includes bounds checking).")
+
     # Required dependencies
     depends_on("c", type="build")
     depends_on("cxx", type="build")
@@ -76,6 +79,9 @@ class Loci(AutotoolsPackage):
     def configure_args(self):
         args = ["--no-sub-dir"]
 
+        if self.spec.satisfies("+debug"):
+            args.append(f"--bounds-check")
+
         if not self.spec.satisfies("+mpi"):
             args.append("--nompi")
 
@@ -84,7 +90,12 @@ class Loci(AutotoolsPackage):
 
         if self.spec.satisfies("partitioner=scotch"):
             args.append(f"--with-scotch={self.spec['scotch'].prefix}")
+
         return args
+
+    def setup_build_environment(self, env):
+        if self.spec.satisfies("+debug"):
+            env.set("LOCI_DEBUG", "0")
 
     def setup_run_environment(self, env):
         env.set("LOCI_BASE", self.prefix)
