@@ -80,6 +80,14 @@ class Loci(AutotoolsPackage):
     def configure_args(self):
         args = ["--no-sub-dir"]
 
+        # Select compiler configuration
+        if self.spec.satisfies("%c=gcc"):
+            args.append(f"--compiler=gcc")
+        elif self.spec.satisfies("%c=clang"):
+            args.append(f"--compiler=llvm")
+        elif self.spec.satisfies("%c=icc"):
+            args.append(f"--compiler=icc")
+
         if self.spec.satisfies("+debug"):
             args.append(f"--bounds-check")
 
