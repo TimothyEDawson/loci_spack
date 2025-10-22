@@ -19,24 +19,20 @@ spack external find
 ```
 
 Next, add this as a [git-based repository](https://spack.readthedocs.io/en/latest/repositories.html#git-based-repositories)
-to your `repos.yaml` file:
-
-```yaml
-# ~/.spack/repos.yaml
-repos:
-  loci_repo:
-    git: https://github.com/TimothyEDawson/loci_spack.git
-    branch: automatic-cloning
-```
-
-Finally, pull it down:
+and pull it down:
 
 ```bash
+spack repo add --name loci_repo https://github.com/TimothyEDawson/loci_spack.git
 spack repo update loci_repo
 ```
 
 And you're good to go! You can verify that Spack is able to find the package with
-`spack info loci`.
+`spack info loci`. As this repository is updated, you can simply run the repo
+update command again:
+
+```bash
+spack repo update loci_repo
+```
 
 ## Note for Python:
 I generally recommend installing your own Python version so that Spack will
@@ -116,13 +112,6 @@ spack concretize
 
 You can now install the requested packages via `spack install`. If you did not
 manually concretize, it will automatically concretize when you install.
-
-# Updating the Spack repo:
-As this repository is updated, you can simply run the repo update command again:
-
-```bash
-spack repo update loci_repo
-```
 
 # Developing
 In order to utilize Spack while actively developing for Loci you can follow
