@@ -13,7 +13,7 @@ class Loci(AutotoolsPackage):
     install_targets = ["install_minimal"]
 
     homepage = "https://github.com/EdwardALuke/loci"
-    url = "https://github.com/EdwardALuke/loci/archive/refs/tags/v4.1.b3.tar.gz"
+    url = "https://github.com/EdwardALuke/loci/archive/refs/tags/v4.1.1.tar.gz"
     git = "https://github.com/EdwardALuke/loci.git"
 
     maintainers("EdwardALuke", "rlfontenot", "TimothyEDawson")
@@ -21,19 +21,20 @@ class Loci(AutotoolsPackage):
     license("LGPL-3.0-only", checked_by="TimothyEDawson")
 
     version("develop", branch="dev", get_full_repo=True)
-    version("4.1.0", tag="v4.1.0", commit="3fa07bba1cae26c887d5dcbde80619e1871156b1", get_full_repo=True)
-    version("stable", commit="751f8b365513ff1f2c5df3d3227f77c285c6f9e7", get_full_repo=True)
     version("cfdrc", commit="d60697b69af801cd33066fa2bfbf0fc3af806d6e", get_full_repo=True)
-    version("4.1.s08-22-2025", tag="v4.1.s08-22-2025", commit="0977369206a84e8ae4989708cc7f6d5798a46ab5", get_full_repo=True)
-    version("4.1.b3", tag="v4.1.b3", sha256="e49ceaf20dcc2d4ddf4f189644403ee3e63731ca92758902d48cb3a0a8636193")
-    version("4.1.b2", tag="v4.1.b2", sha256="4c1e98b30f96d0fb3d6d9cda29961e9b741d68373afe237fc0f2758260b9381c")
-    version("4.1.b1", tag="v4.1.b1", sha256="e56f525755600cf27de42c90ef97388f717da720674d6bf361ee9e612e519cd6")
 
-    version("4.0.10", tag="v4.0.10", sha256="eba6cf7e133c05343da108ac9eed76d8b679effb51bebce31d7ef1917315ab42")
-    version("4.0.9", tag="v4.0.9", sha256="7ca5d519f480c9b323f402a11445d0a068d69d3c10c9f87742d6e987ae724d5e")
-    version("4.0.8a", tag="v4.0.8a", sha256="5d3a2c5bbaa3808564d4b851344bd0de5e817292f3c9f3604e3e20c95ac26f55")
-    version("4.0.8", tag="v4.0.8", sha256="b05749097994e7546a8cf9eb077125240bd1a582c055a328f48655c3d55f2f5d")
-    version("4.0.7", tag="v4.0.7", sha256="1cdca827ff1980714989fd35a34f0aa4b3d3f1fd8668acb5e4f9b27cd2d3c15b")
+    version("4.1.1", commit="a5779277b742256f69cd8c4995073e191457dcce", get_full_repo=True)
+    version("4.1.0", commit="3fa07bba1cae26c887d5dcbde80619e1871156b1", get_full_repo=True)
+    version("4.1.b3-s08-22-2025", tag="v4.1.s08-22-2025", commit="0977369206a84e8ae4989708cc7f6d5798a46ab5", get_full_repo=True)
+    version("4.1.b3", commit="151890a037480cec683f9fb0237e0cc9fa819fa7", get_full_repo=True)
+    version("4.1.b2", commit="fff611f8f817b4b36e76d7f99354fb6cb16a8988", get_full_repo=True)
+    version("4.1.b1", commit="ada069a4945825342fdeff160422751e7bcc614a", get_full_repo=True)
+
+    version("4.0.10", sha256="eba6cf7e133c05343da108ac9eed76d8b679effb51bebce31d7ef1917315ab42")
+    version("4.0.9", sha256="7ca5d519f480c9b323f402a11445d0a068d69d3c10c9f87742d6e987ae724d5e")
+    version("4.0.8a", sha256="5d3a2c5bbaa3808564d4b851344bd0de5e817292f3c9f3604e3e20c95ac26f55")
+    version("4.0.8", sha256="b05749097994e7546a8cf9eb077125240bd1a582c055a328f48655c3d55f2f5d")
+    version("4.0.7", sha256="1cdca827ff1980714989fd35a34f0aa4b3d3f1fd8668acb5e4f9b27cd2d3c15b")
 
     # Enable debug build
     variant("debug", default=False, description="Enable debugging options (includes bounds checking).")
