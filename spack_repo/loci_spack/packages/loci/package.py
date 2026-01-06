@@ -94,7 +94,9 @@ class Loci(AutotoolsPackage):
         if self.spec.satisfies("+debug"):
             args.append(f"--bounds-check")
 
-        if not self.spec.satisfies("+mpi"):
+        if self.spec.satisfies("+mpi"):
+            args.append(f"--mpi-dir={self.spec['mpi'].prefix}")
+        else:
             args.append("--nompi")
 
         if self.spec.satisfies("+cgns"):
