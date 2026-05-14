@@ -23,6 +23,8 @@ class Loci(AutotoolsPackage):
     version("develop", branch="dev", get_full_repo=True)
     version("cfdrc", commit="d60697b69af801cd33066fa2bfbf0fc3af806d6e", get_full_repo=True)
 
+    version("4.2.a0", commit="181e54d0f1a9dfe84fb67ac1833cc2e8d32ee791", get_full_repo=True)
+    version("4.1.2", commit="1865744d405ac50a1a3d4bc3fd14f79e14e16ab7", get_full_repo=True)
     version("4.1.1", commit="a5779277b742256f69cd8c4995073e191457dcce", get_full_repo=True)
     version("4.1.0", commit="3fa07bba1cae26c887d5dcbde80619e1871156b1", get_full_repo=True)
     version("4.1.b3-s08-22-2025", tag="v4.1.s08-22-2025", commit="0977369206a84e8ae4989708cc7f6d5798a46ab5", get_full_repo=True)
