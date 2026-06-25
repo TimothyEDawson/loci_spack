@@ -21,6 +21,7 @@ class Loci(AutotoolsPackage):
     license("LGPL-3.0-only", checked_by="TimothyEDawson")
 
     version("develop", branch="dev", get_full_repo=True)
+    version("stable", branch="stable41",get_full_repo=True)
     version("cfdrc", commit="d60697b69af801cd33066fa2bfbf0fc3af806d6e", get_full_repo=True)
 
     version("4.2.a0", commit="181e54d0f1a9dfe84fb67ac1833cc2e8d32ee791", get_full_repo=True)
@@ -61,8 +62,9 @@ class Loci(AutotoolsPackage):
     depends_on("scotch+metis~threads", when="@4.1.b3: partitioner=scotch")
 
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
-    variant("petsc", default=True, description="Enable PETSc linear solver.",)
-    depends_on("petsc@:3.23.3~superlu-dist", when="+petsc")
+    variant("petsc", default=True, description="Enable PETSc linear solver.")
+    depends_on("petsc@:3.23.3~superlu-dist", when="@:4.1.2 +petsc")
+    depends_on("petsc@3.23.4:~superlu-dist",when="@4.2.a0:,stable,develop +petsc")
 
     variant("cgns", default=False, description="Enable CGNS support.")
     depends_on("cgns", when="+cgns")
