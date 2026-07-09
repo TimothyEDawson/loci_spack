@@ -64,7 +64,7 @@ class Loci(AutotoolsPackage):
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
     variant("petsc", default=True, description="Enable PETSc linear solver.")
     depends_on("petsc~superlu-dist", when="@4.1.3: +petsc")
-    depends_on("petsc@:3.23.3~superlu-dist", when="@:4.1.2 +petsc")
+    depends_on("petsc@:3.23.3~superlu-dist", when="@:4.1.2,4.2.a0 +petsc")
 
     variant("cgns", default=False, description="Enable CGNS support.")
     depends_on("cgns", when="+cgns")
