@@ -24,6 +24,7 @@ class Loci(AutotoolsPackage):
     version("cfdrc", commit="d60697b69af801cd33066fa2bfbf0fc3af806d6e", get_full_repo=True)
 
     version("4.2.a0", commit="181e54d0f1a9dfe84fb67ac1833cc2e8d32ee791", get_full_repo=True)
+    version("4.1.3", commit="c77cabf13dd590cda14b193831ad61e3e3aac182", get_full_repo=True) # Keep up-to-date w/ stable41 branch
     version("4.1.2", commit="1865744d405ac50a1a3d4bc3fd14f79e14e16ab7", get_full_repo=True)
     version("4.1.1", commit="a5779277b742256f69cd8c4995073e191457dcce", get_full_repo=True)
     version("4.1.0", commit="3fa07bba1cae26c887d5dcbde80619e1871156b1", get_full_repo=True)
@@ -61,8 +62,9 @@ class Loci(AutotoolsPackage):
     depends_on("scotch+metis~threads", when="@4.1.b3: partitioner=scotch")
 
     # Note: do not include superlu-dist as that has it's own link to parmetis's partioner, which will get loci confused
-    variant("petsc", default=True, description="Enable PETSc linear solver.",)
-    depends_on("petsc@:3.23.3~superlu-dist", when="+petsc")
+    variant("petsc", default=True, description="Enable PETSc linear solver.")
+    depends_on("petsc~superlu-dist", when="@4.1.3: +petsc")
+    depends_on("petsc@:3.23.3~superlu-dist", when="@:4.1.2 +petsc")
 
     variant("cgns", default=False, description="Enable CGNS support.")
     depends_on("cgns", when="+cgns")
