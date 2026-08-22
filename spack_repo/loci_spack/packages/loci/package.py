@@ -13,7 +13,7 @@ class Loci(AutotoolsPackage):
     install_targets = ["install_minimal"]
 
     homepage = "https://github.com/EdwardALuke/loci"
-    url = "https://github.com/EdwardALuke/loci/archive/refs/tags/v4.1.1.tar.gz"
+    url = "https://github.com/EdwardALuke/loci/archive/refs/tags/v4.1.3.tar.gz"
     git = "https://github.com/EdwardALuke/loci.git"
 
     maintainers("EdwardALuke", "rlfontenot", "TimothyEDawson")
@@ -21,10 +21,11 @@ class Loci(AutotoolsPackage):
     license("LGPL-3.0-only", checked_by="TimothyEDawson")
 
     version("develop", branch="dev", get_full_repo=True)
+    version("stable", branch="stable41", get_full_repo=True)
     version("cfdrc", commit="d60697b69af801cd33066fa2bfbf0fc3af806d6e", get_full_repo=True)
 
-    version("4.2.a0", commit="181e54d0f1a9dfe84fb67ac1833cc2e8d32ee791", get_full_repo=True)
-    version("4.1.3", commit="c77cabf13dd590cda14b193831ad61e3e3aac182", get_full_repo=True) # Keep up-to-date w/ stable41 branch
+    version("4.2.a0", commit="c1a3b7c7cd170cab3e177737270e42badc423314", get_full_repo=True)
+    version("4.1.3", commit="c1f9e830f81405d338507c9a3812893ebb727bb4", get_full_repo=True, preferred=True)  # Keep up-to-date w/ stable41 branch
     version("4.1.2", commit="1865744d405ac50a1a3d4bc3fd14f79e14e16ab7", get_full_repo=True)
     version("4.1.1", commit="a5779277b742256f69cd8c4995073e191457dcce", get_full_repo=True)
     version("4.1.0", commit="3fa07bba1cae26c887d5dcbde80619e1871156b1", get_full_repo=True)
